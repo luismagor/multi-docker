@@ -1,0 +1,23 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t luismago/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true luismago/react-test npm test
+
+after_success:
+  - docker build -t luismago/multi-client ./client
+  - docker build -t luismago/multi-nginx ./nginx
+  - docker build -t luismago/multi-server ./server
+  - docker build -t luismago/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push luismago/multi-client
+  - docker push luismago/multi-nginx
+  - docker push luismago/multi-server
+  - docker push luismago/multi-worker
