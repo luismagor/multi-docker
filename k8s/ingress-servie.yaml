@@ -25,7 +25,7 @@ spec:
         - www.luismagerre.com
       secretName: luismagerre-com
   rules:
-    - host: luimagerre.com
+    - host: luismagerre.com
       http: *common-rules
-    - host: www.luimagerre.com
+    - host: www.luismagerre.com
       http: *common-rules
