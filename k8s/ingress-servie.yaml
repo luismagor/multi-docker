@@ -1,14 +1,3 @@
-x-common-rules: &common-rules
-  paths:
-    - path: /?(.*)
-      backend:
-        serviceName: client-cluster-ip-service
-        servicePort: 3000
-    - path: /api/?(.*)
-      backend:
-        serviceName: server-cluster-ip-service
-        servicePort: 5000
-
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -26,6 +15,24 @@ spec:
       secretName: luismagerre-com
   rules:
     - host: luismagerre.com
-      http: *common-rules
+      http:
+        paths:
+          - path: /?(.*)
+            backend:
+              serviceName: client-cluster-ip-service
+              servicePort: 3000
+          - path: /api/?(.*)
+            backend:
+              serviceName: server-cluster-ip-service
+              servicePort: 5000
     - host: www.luismagerre.com
-      http: *common-rules
+      http:
+        paths:
+          - path: /?(.*)
+            backend:
+              serviceName: client-cluster-ip-service
+              servicePort: 3000
+          - path: /api/?(.*)
+            backend:
+              serviceName: server-cluster-ip-service
+              servicePort: 5000
